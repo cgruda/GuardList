@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>מתזמן חלוקת זמנים</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      direction: rtl; /* Right-to-left text direction */
+      text-align: right; /* Align all text to the right */
+    }
+    button {
+  background-color: green; /* Green background */
+  color: white; /* White text */
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  display: block;
+  border-radius: 5px; /* Rounded corners */
+  margin-bottom: 10px; /* Adds space between buttons */
+}
+.time-container {
+  display: flex;
+  align-items: center;
+  gap: 20px; /* Increase spacing between the start and end time inputs */
+}
+
+.time-container label {
+  flex: none; /* Prevent labels from stretching */
+  margin-left: 2px; /* Reduce the gap between label and input */
+}
+
+.time-container input {
+  flex: none; /* Prevent inputs from stretching */
+  padding: 5px; /* Adjust padding for better spacing */
+  width: 90px; /* Adjust width to keep inputs more compact */  
+}
+
+.copy-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.copy-btn {
+  background-color: #5DADE2;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  display: block;
+  border-radius: 5px; /* Rounded corners */
+}
+
+.copy-btn:hover {
+  background-color: darkgray;
+}
+
+button:hover {
+  background-color: darkgreen;
+}
+
+h1, h2 {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+label, p {
+  margin-bottom: 5px;
+}
+
+    input, textarea {
+      margin: 10px 0;
+      display: block;
+      width: 95%;
+      padding: 10px;
+      text-align: right;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: right;
+    }
+    th {
+      background-color: #f4f4f4;
+    }
+    .label-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.label-container p {
+  margin: 0;
+  font-weight: bold;
+}
+.hidden {
+  display: none;
+}
+
+label {
+  display: block; /* Makes sure the label is on its own line */
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+.schedule-container {
+  margin-bottom: 20px; /* Adds space below each schedule */
+}
+  </style>
+</head>
+<body>
+  <h1>מתזמן שבצק מאזין</h1>
+  <h2>טווח זמנים ערב</h2>
+<div class="time-container">
+  <label for="startTime1">התחלה:</label>
+  <input type="time" id="startTime1" required>
+  
+  <label for="endTime1">סיום:</label>
+  <input type="time" id="endTime1" value="05:30" required>
+</div>
+
+<h2>טווח זמנים בוקר</h2>
+<div class="time-container">
+  <label for="startTime2">התחלה:</label>
+  <input type="time" id="startTime2" value="07:30" required>
+  
+  <label for="endTime2">סיום:</label>
+  <input type="time" id="endTime2" required>
+</div>
+
+<h2>שמות</h2>
+<div class="label-container">
+  <label for="names">הזן שמות (כל שם בשורה נפרדת):</label>
+  <p id="nameCount">מספר שמות: 0</p>
+</div>
+<textarea id="names" rows="4" placeholder="הכנס שמות כאן..." oninput="updateNameCount()"></textarea>
+  
+  <button id="generate">צור שבצק מאזין</button>
+  <button class="copy-btn" onclick="copyAllTables()"> העתק שבצק כטקסט</button>
+  
+<!-- Evening Schedule -->
+<div id="schedule1-container" class="hidden schedule-container">
+  <label><strong>מאזין ערב</strong></label>
+  <table id="schedule1">
+    <thead>
+      <tr>
+        <th>שעה</th>
+        <th>שם</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</div>
+
+<!-- Morning Schedule -->
+<div id="schedule2-container" class="hidden schedule-container">
+  <label><strong>מאזין בוקר</strong></label>
+  <table id="schedule2">
+    <thead>
+      <tr>
+        <th>שעה</th>
+        <th>שם</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</div>
+
+  <script>
+    document.getElementById('generate').addEventListener('click', generateSchedules);
+
+function generateSchedules() {
+  const startTime1 = document.getElementById('startTime1').value;
+  const endTime1 = document.getElementById('endTime1').value;
+  const startTime2 = document.getElementById('startTime2').value;
+  const endTime2 = document.getElementById('endTime2').value;
+  const namesInput = document.getElementById('names').value.trim();
+
+  if (!((startTime1 && endTime1) || (startTime2 && endTime2))) {
+    alert("אנא הזן לפחות טווח זמן אחד!");
+    return;
+  }
+
+  if (namesInput === "") {
+    alert("אנא הזן לפחות שם אחד!");
+    return;
+  }
+
+  const names = namesInput.split('\n').map(name => name.trim()).filter(name => name !== "");
+  if (names.length === 0) {
+    alert("אנא הזן לפחות שם אחד!");
+    return;
+  }
+
+  const shuffledNames = names.sort(() => Math.random() - 0.5);
+
+  // Clear both tables
+  clearTable('schedule1');
+  clearTable('schedule2');
+
+  let hasEveningSchedule = false;
+  let hasMorningSchedule = false;
+
+  if (startTime1 && endTime1) {
+    generateSchedule(startTime1, endTime1, shuffledNames, 'schedule1');
+    hasEveningSchedule = true;
+  }
+
+  if (startTime2 && endTime2) {
+    generateSchedule(startTime2, endTime2, shuffledNames, 'schedule2');
+    hasMorningSchedule = true;
+  }
+
+  // Show only the full schedule containers
+  document.getElementById('schedule1-container').classList.toggle('hidden', !hasEveningSchedule);
+  document.getElementById('schedule2-container').classList.toggle('hidden', !hasMorningSchedule);
+}
+
+// Function to clear a table
+function clearTable(tableId) {
+  const tbody = document.getElementById(tableId).querySelector('tbody');
+  tbody.innerHTML = ''; // Remove all rows
+}
+
+// Function to clear a table
+function clearTable(tableId) {
+  const tbody = document.getElementById(tableId).querySelector('tbody');
+  tbody.innerHTML = ''; // Remove all rows
+}
+
+    function generateSchedule(startTime, endTime, names, tableId) {
+      const start = new Date(`1970-01-01T${startTime}:00`);
+      let end = new Date(`1970-01-01T${endTime}:00`);
+
+      // Handle case where end time is on the next day
+      if (end <= start) {
+        end = new Date(end.getTime() + 24 * 60 * 60 * 1000); // Add 24 hours
+      }
+
+      const totalMinutes = (end - start) / (1000 * 60);
+      const slotDuration = totalMinutes / names.length;
+
+      if (slotDuration <= 0) {
+        alert("שעת הסיום חייבת להיות אחרי שעת ההתחלה!");
+        return;
+      }
+
+      // Generate time slots
+      const tbody = document.getElementById(tableId).querySelector('tbody');
+      tbody.innerHTML = ''; // Clear previous results
+      let currentTime = start;
+
+      names.forEach(name => {
+        const nextTime = new Date(currentTime.getTime() + slotDuration * 60 * 1000);
+        const timeSlot = `${formatTime(nextTime)} -   ${formatTime(currentTime)}`;
+        
+        const row = document.createElement('tr');
+        row.innerHTML = `<td>${timeSlot}</td><td>${name}</td>`;
+        tbody.appendChild(row);
+
+        currentTime = nextTime;
+      });
+    }
+
+    function formatTime(date) {
+      const hours = String(date.getHours()).padStart(2, '0');
+      const minutes = String(date.getMinutes()).padStart(2, '0');
+      return `${hours}:${minutes}`;
+    }
+    
+    function updateNameCount() {
+  const namesInput = document.getElementById('names').value.trim();
+  const names = namesInput.split('\n').map(name => name.trim()).filter(name => name !== "");
+  document.getElementById('nameCount').innerText = `מספר שמות: ${names.length}`;
+}
+
+function copyAllTables() {
+  let text = "";
+
+  const eveningText = getTableText('schedule1');
+  if (eveningText) {
+    text += "*מאזין ערב*\n" + eveningText + "\n\n";
+  }
+
+  const morningText = getTableText('schedule2');
+  if (morningText) {
+    text += "*מאזין בוקר*\n" + morningText + "\n";
+  }
+
+  if (text.trim() === "") {
+    alert("אין נתונים להעתקה!");
+    return;
+  }
+
+  navigator.clipboard.writeText(text.trim()).then(() => {
+    console.log("Copied successfully");
+  }).catch(err => {
+    console.error("Clipboard copy failed:", err);
+    fallbackCopyText(text);
+  });
+}
+
+// Fallback for older browsers or permissions issues
+function fallbackCopyText(text) {
+  const textarea = document.createElement("textarea");
+  textarea.value = text;
+  document.body.appendChild(textarea);
+  textarea.select();
+  try {
+    document.execCommand("copy");
+    console.log("Copied using fallback");
+  } catch (err) {
+    console.error("Fallback copy failed", err);
+    alert("שגיאה בהעתקה ❌");
+  }
+  document.body.removeChild(textarea);
+}
+
+function getTableText(tableId) {
+  const table = document.getElementById(tableId);
+  let text = "";
+  const rows = table.getElementsByTagName("tr");
+
+    // Skip the first row (headers)
+  for (let i = 1; i < rows.length; i++) {
+    let rowText = [];
+    for (let cell of rows[i].cells) {
+      rowText.push(cell.innerText);
+    }
+    text += rowText.join("   ") + "\n"; // Format as "time - name"
+  }
+  
+  return text.trim();
+} 
+
+  </script>
+</body>
+</html>
