@@ -179,6 +179,50 @@
         font-size: 16px;
         cursor: pointer;
       }
+
+      .collapsible-container {
+        margin-top: 20px;
+      }
+
+      .collapsible-button {
+        background-color: dimgray;
+        color: white;
+        font-family: Calibri, sans-serif;
+        font-size: 16px;
+        font-weight: bold;
+        text-align: center;
+        padding: 10px;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+        display: block;
+        border-radius: 5px;
+        margin-bottom: 10px;
+      }
+
+      .collapsible-button:hover {
+        background-color: gray;
+      }
+
+      /* Initially hidden settings container */
+      .settings-container {
+        margin-top: 10px;
+        padding: 10px;
+        background-color: #2b2b2b;
+        border-radius: 5px;
+      }
+
+      .setting {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        direction: rtl;
+        margin-bottom: 2px;
+      }
+
+      .hidden {
+        display: none;
+      }
     </style>
   </head>
   <body>
@@ -213,17 +257,20 @@
       placeholder="הכנס שמות כאן..."
       oninput="updateNameCount()"
     ></textarea>
-    
-    <!-- Settings Container -->
-    <div class="settings-container">
-      <div class="setting">
-        <input type="checkbox" id="randomizeNames" checked>
-        <label for="randomizeNames">שבץ רנדומלית</label>
-      </div>
-    
-      <div class="setting">
-        <input type="checkbox" id="sameOrderMorning" checked>
-        <label for="sameOrderMorning">סדר שומרים זהה בבוקר</label>
+
+    <!-- Collapsible Settings Container -->
+    <div class="collapsible-container">
+      <button class="collapsible-button" onclick="toggleSettings()">הגדרות נוספות</button>
+      <div class="settings-container hidden">
+        <div class="setting">
+          <input type="checkbox" id="randomizeNames" checked>
+          <label for="randomizeNames">שבץ רנדומלית</label>
+        </div>
+
+        <div class="setting">
+          <input type="checkbox" id="sameOrderMorning" checked>
+          <label for="sameOrderMorning">סדר שומרים זהה בבוקר</label>
+        </div>
       </div>
     </div>
 
@@ -446,6 +493,20 @@
         }
 
         return text.trim();
+      }
+      
+      function toggleSettings() {
+        const settingsContainer = document.querySelector(".settings-container");
+        settingsContainer.classList.toggle("hidden");
+        
+        const button = document.querySelector(".collapsible-button");
+        
+        // Change button text based on the visibility of settings
+        if (settingsContainer.classList.contains("hidden")) {
+          button.innerText = "הגדרות נוספות";// Text when collapsed
+        } else {
+          button.innerText = "הסתר הגדרות"; // Text when expanded
+        }
       }
     </script>
   </body>
