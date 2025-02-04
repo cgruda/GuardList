@@ -83,6 +83,9 @@
         border-radius: 5px;
         font-family: Calibri, sans-serif;
       }
+      textarea {
+        margin-bottom: 20px;
+      }
       .time-container {
         display: flex;
         align-items: center;
@@ -179,8 +182,8 @@
     <hr>
     <h2>שמות</h2>
     <div class="label-container">
-      <label for="names">הזן שמות (כל שם בשורה נפרדת):</label>
-      <p id="nameCount">מספר שמות: 0</p>
+      <label for="names">הזן כל שם בשורה נפרדת:</label>
+      <p id="nameCount">מס' שמות: 0</p>
     </div>
     <textarea
       id="names"
@@ -335,7 +338,7 @@
           .filter((name) => name !== "");
         document.getElementById(
           "nameCount"
-        ).innerText = `מספר שמות: ${names.length}`;
+        ).innerText = `מס' שמות: ${names.length}`;
       }
 
       function copyAllTables() {
