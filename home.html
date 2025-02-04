@@ -10,9 +10,11 @@
         margin: 20px;
         direction: rtl;
         text-align: right;
+        background-color: #1e1e1e;
+        color: #e0e0e0;
       }
       button {
-        background-color: green;
+        background-color: #2e7d32;
         color: white; /* White text */
         font-size: 16px;
         font-weight: bold;
@@ -24,6 +26,48 @@
         display: block;
         border-radius: 5px; /* Rounded corners */
         margin-bottom: 10px; /* Adds space between buttons */
+      }
+      button:hover {
+        background-color: #388e3c;
+      }
+      .copy-btn {
+        background-color: #1565c0;
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        text-align: center;
+        padding: 10px;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+        display: block;
+        border-radius: 5px; /* Rounded corners */
+      }
+      .copy-btn:hover {
+        background-color: #1e88e5;
+      }
+      h1,
+      h2 {
+        margin-top: 5px;
+        margin-bottom: 5px;
+        color: #ffffff;
+      }
+      label,
+      p {
+        margin-bottom: 5px;
+        color: #cccccc;
+      }
+      input,
+      textarea {
+        margin: 10px 0;
+        display: block;
+        width: 95%;
+        padding: 10px;
+        text-align: right;
+        background-color: #333;
+        color: #e0e0e0;
+        border: 1px solid #555;
+        border-radius: 5px;
       }
       .time-container {
         display: flex;
@@ -44,55 +88,22 @@
         align-items: center;
         gap: 10px;
       }
-      .copy-btn {
-        background-color: #5dade2;
-        color: white;
-        font-size: 16px;
-        font-weight: bold;
-        text-align: center;
-        padding: 10px;
-        border: none;
-        cursor: pointer;
-        width: 100%;
-        display: block;
-        border-radius: 5px; /* Rounded corners */
-      }
-      .copy-btn:hover {
-        background-color: darkgray;
-      }
-      button:hover {
-        background-color: darkgreen;
-      }
-      h1,
-      h2 {
-        margin-top: 5px;
-        margin-bottom: 5px;
-      }
-      label,
-      p {
-        margin-bottom: 5px;
-      }
-      input,
-      textarea {
-        margin: 10px 0;
-        display: block;
-        width: 95%;
-        padding: 10px;
-        text-align: right;
-      }
       table {
         width: 100%;
         border-collapse: collapse;
         margin-top: 10px;
+        background-color: #2b2b2b;
+        color: #e0e0e0;
       }
       th,
       td {
-        border: 1px solid #ddd;
+        border: 1px solid #444;
         padding: 8px;
         text-align: right;
       }
       th {
-        background-color: #f4f4f4;
+        background-color: #3a3a3a;
+        color: #ffffff;
       }
       .label-container {
         display: flex;
@@ -102,6 +113,7 @@
       .label-container p {
         margin: 0;
         font-weight: bold;
+        color: #ffffff;
       }
       .hidden {
         display: none;
@@ -110,6 +122,7 @@
         display: block; /* Makes sure the label is on its own line */
         font-size: 18px;
         margin-bottom: 5px;
+        color: #cccccc;
       }
       .schedule-container {
         margin-bottom: 20px; /* Adds space below each schedule */
