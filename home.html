@@ -8,11 +8,11 @@
       body {
         font-family: Arial, sans-serif;
         margin: 20px;
-        direction: rtl; /* Right-to-left text direction */
-        text-align: right; /* Align all text to the right */
+        direction: rtl;
+        text-align: right;
       }
       button {
-        background-color: green; /* Green background */
+        background-color: green;
         color: white; /* White text */
         font-size: 16px;
         font-weight: bold;
@@ -32,12 +32,12 @@
       }
       .time-container label {
         flex: none; /* Prevent labels from stretching */
-        margin-left: 2px; /* Reduce the gap between label and input */
+        margin-left: 2px;
       }
       .time-container input {
         flex: none; /* Prevent inputs from stretching */
-        padding: 5px; /* Adjust padding for better spacing */
-        width: 90px; /* Adjust width to keep inputs more compact */
+        padding: 5px;
+        width: 90px;
       }
       .copy-container {
         display: flex;
@@ -212,7 +212,6 @@
 
         const shuffledNames = names.sort(() => Math.random() - 0.5);
 
-        // Clear both tables
         clearTable("schedule1");
         clearTable("schedule2");
 
@@ -238,13 +237,6 @@
           .classList.toggle("hidden", !hasMorningSchedule);
       }
 
-      // Function to clear a table
-      function clearTable(tableId) {
-        const tbody = document.getElementById(tableId).querySelector("tbody");
-        tbody.innerHTML = ""; // Remove all rows
-      }
-
-      // Function to clear a table
       function clearTable(tableId) {
         const tbody = document.getElementById(tableId).querySelector("tbody");
         tbody.innerHTML = ""; // Remove all rows
@@ -361,7 +353,7 @@
           for (let cell of rows[i].cells) {
             rowText.push(cell.innerText);
           }
-          text += rowText.join("   ") + "\n"; // Format as "time - name"
+          text += rowText.join("   ") + "\n";
         }
 
         return text.trim();
