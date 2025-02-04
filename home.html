@@ -162,7 +162,13 @@
         align-items: center;
         gap: 8px;
         direction: rtl;
-        margin-bottom: 8px;
+      }
+      .settings-container {
+        margin-top: 15px;
+        padding: 10px;
+        background-color: #2b2b2b;
+        border-radius: 5px;
+        margin-bottom: 15px;
       }
       .setting input[type="checkbox"] {
         width: 18px;
@@ -208,11 +214,18 @@
       oninput="updateNameCount()"
     ></textarea>
     
-<!-- Random Shuffle Checkbox -->
-<div class="setting">
-  <input type="checkbox" id="randomizeNames" checked>
-  <label for="randomizeNames">שבץ רנדומלית</label>
-</div>
+    <!-- Settings Container -->
+    <div class="settings-container">
+      <div class="setting">
+        <input type="checkbox" id="randomizeNames" checked>
+        <label for="randomizeNames">שבץ רנדומלית</label>
+      </div>
+    
+      <div class="setting">
+        <input type="checkbox" id="sameOrderMorning" checked>
+        <label for="sameOrderMorning">סדר שומרים זהה בבוקר</label>
+      </div>
+    </div>
 
     <button id="generate">צור שבצק מאזין</button>
     <button class="copy-btn" onclick="copyAllTables()">העתק שבצק כטקסט</button>
@@ -257,45 +270,54 @@
         const endTime2 = document.getElementById('endTime2').value;
         const namesInput = document.getElementById('names').value.trim();
         const randomize = document.getElementById('randomizeNames').checked; // Check if shuffle is enabled
-      
+        const sameOrderMorning = document.getElementById('sameOrderMorning').checked; // Check if morning schedule should follow same order
+  
         if (!((startTime1 && endTime1) || (startTime2 && endTime2))) {
           alert("אנא הזן לפחות טווח זמן אחד!");
           return;
         }
-      
+  
         if (namesInput === "") {
           alert("אנא הזן לפחות שם אחד!");
           return;
         }
-      
+  
         let names = namesInput.split('\n').map(name => name.trim()).filter(name => name !== "");
-      
+  
         if (names.length === 0) {
           alert("אנא הזן לפחות שם אחד!");
           return;
         }
-      
+  
         if (randomize) {
           names = names.sort(() => Math.random() - 0.5); // Shuffle if checkbox is checked
         }
-      
+  
         // Clear tables
         clearTable('schedule1');
         clearTable('schedule2');
       
         let hasEveningSchedule = false;
         let hasMorningSchedule = false;
-      
+  
+        // Generate Evening Schedule
         if (startTime1 && endTime1) {
           generateSchedule(startTime1, endTime1, names, 'schedule1');
           hasEveningSchedule = true;
         }
-      
+  
+        // Generate Morning Schedule
+        let morningNames = names;
+        if (!sameOrderMorning && randomize) {
+          morningNames = [...names].sort(() => Math.random() - 0.5); // Shuffle if checkbox is not checked
+        }
+
         if (startTime2 && endTime2) {
-          generateSchedule(startTime2, endTime2, names, 'schedule2');
+          generateSchedule(startTime2, endTime2, morningNames, 'schedule2');
           hasMorningSchedule = true;
         }
-      
+  
+        // Show the schedules after generating
         if (hasEveningSchedule) {
           document.getElementById('schedule1-container').classList.remove('hidden');
         }
@@ -303,7 +325,7 @@
           document.getElementById('schedule2-container').classList.remove('hidden');
         }
       }
-       
+  
       function clearTable(tableId) {
         const tbody = document.getElementById(tableId).querySelector("tbody");
         tbody.innerHTML = ""; // Remove all rows
