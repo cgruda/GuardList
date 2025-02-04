@@ -5,12 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>מתזמן שבצק מאזין</title>
     <style>
-      .container {
-        max-width: 350px; /* Limit width */
-        width: 95%; /* If screen is smaller, use 95% */
-        margin: 0 auto; /* Center the content */
-        text-align: right; /* Keep right alignment for RTL */
-      }
       body {
         font-family: Calibri, sans-serif;
         margin: 20px;
@@ -151,70 +145,66 @@
     </style>
   </head>
   <body>
-    <div class="container">
-      <h1>מתזמן שבצק מאזין</h1>
-      <h2>טווח זמנים ערב</h2>
-      <div class="time-container">
-        <label for="startTime1">התחלה:</label>
-        <input type="time" id="startTime1" required />
+    <h1>מתזמן שבצק מאזין</h1>
+    <h2>טווח זמנים ערב</h2>
+    <div class="time-container">
+      <label for="startTime1">התחלה:</label>
+      <input type="time" id="startTime1" required />
 
-        <label for="endTime1">סיום:</label>
-        <input type="time" id="endTime1" value="05:30" required />
-      </div>
+      <label for="endTime1">סיום:</label>
+      <input type="time" id="endTime1" value="05:30" required />
+    </div>
 
-      <h2>טווח זמנים בוקר</h2>
-      <div class="time-container">
-        <label for="startTime2">התחלה:</label>
-        <input type="time" id="startTime2" value="07:30" required />
+    <h2>טווח זמנים בוקר</h2>
+    <div class="time-container">
+      <label for="startTime2">התחלה:</label>
+      <input type="time" id="startTime2" value="07:30" required />
 
-        <label for="endTime2">סיום:</label>
-        <input type="time" id="endTime2" required />
-      </div>
+      <label for="endTime2">סיום:</label>
+      <input type="time" id="endTime2" required />
+    </div>
 
-      <h2>שמות</h2>
-      <div class="label-container">
-        <label for="names">הזן שמות (כל שם בשורה נפרדת):</label>
-        <p id="nameCount">מספר שמות: 0</p>
-      </div>
-      <textarea
-        id="names"
-        rows="4"
-        placeholder="הכנס שמות כאן..."
-        oninput="updateNameCount()"
-      ></textarea>
+    <h2>שמות</h2>
+    <div class="label-container">
+      <label for="names">הזן שמות (כל שם בשורה נפרדת):</label>
+      <p id="nameCount">מספר שמות: 0</p>
+    </div>
+    <textarea
+      id="names"
+      rows="4"
+      placeholder="הכנס שמות כאן..."
+      oninput="updateNameCount()"
+    ></textarea>
 
-      <button id="generate">צור שבצק מאזין</button>
-      <button class="copy-btn" onclick="copyAllTables()">
-        העתק שבצק כטקסט
-      </button>
+    <button id="generate">צור שבצק מאזין</button>
+    <button class="copy-btn" onclick="copyAllTables()">העתק שבצק כטקסט</button>
 
-      <!-- Evening Schedule -->
-      <div id="schedule1-container" class="hidden schedule-container">
-        <label><strong>מאזין ערב</strong></label>
-        <table id="schedule1">
-          <thead>
-            <tr>
-              <th>שעה</th>
-              <th>שם</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-      </div>
+    <!-- Evening Schedule -->
+    <div id="schedule1-container" class="hidden schedule-container">
+      <label><strong>מאזין ערב</strong></label>
+      <table id="schedule1">
+        <thead>
+          <tr>
+            <th>שעה</th>
+            <th>שם</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
 
-      <!-- Morning Schedule -->
-      <div id="schedule2-container" class="hidden schedule-container">
-        <label><strong>מאזין בוקר</strong></label>
-        <table id="schedule2">
-          <thead>
-            <tr>
-              <th>שעה</th>
-              <th>שם</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-      </div>
+    <!-- Morning Schedule -->
+    <div id="schedule2-container" class="hidden schedule-container">
+      <label><strong>מאזין בוקר</strong></label>
+      <table id="schedule2">
+        <thead>
+          <tr>
+            <th>שעה</th>
+            <th>שם</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
     </div>
 
     <script>
