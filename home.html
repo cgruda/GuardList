@@ -84,7 +84,7 @@
         font-family: Calibri, sans-serif;
       }
       textarea {
-        margin-bottom: 20px;
+        margin-bottom: 10px;
       }
       .time-container {
         display: flex;
@@ -157,6 +157,22 @@
         ); /* Makes the clock icon visible on dark backgrounds */
         cursor: pointer;
       }
+      .setting {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        direction: rtl;
+        margin-bottom: 8px;
+      }
+      .setting input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        cursor: pointer;
+      }
+      .setting label {
+        font-size: 16px;
+        cursor: pointer;
+      }
     </style>
   </head>
   <body>
@@ -191,6 +207,12 @@
       placeholder="הכנס שמות כאן..."
       oninput="updateNameCount()"
     ></textarea>
+    
+<!-- Random Shuffle Checkbox -->
+<div class="setting">
+  <input type="checkbox" id="randomizeNames" checked>
+  <label for="randomizeNames">שבץ רנדומלית</label>
+</div>
 
     <button id="generate">צור שבצק מאזין</button>
     <button class="copy-btn" onclick="copyAllTables()">העתק שבצק כטקסט</button>
@@ -229,58 +251,59 @@
         .addEventListener("click", generateSchedules);
 
       function generateSchedules() {
-        const startTime1 = document.getElementById("startTime1").value;
-        const endTime1 = document.getElementById("endTime1").value;
-        const startTime2 = document.getElementById("startTime2").value;
-        const endTime2 = document.getElementById("endTime2").value;
-        const namesInput = document.getElementById("names").value.trim();
-
+        const startTime1 = document.getElementById('startTime1').value;
+        const endTime1 = document.getElementById('endTime1').value;
+        const startTime2 = document.getElementById('startTime2').value;
+        const endTime2 = document.getElementById('endTime2').value;
+        const namesInput = document.getElementById('names').value.trim();
+        const randomize = document.getElementById('randomizeNames').checked; // Check if shuffle is enabled
+      
         if (!((startTime1 && endTime1) || (startTime2 && endTime2))) {
           alert("אנא הזן לפחות טווח זמן אחד!");
           return;
         }
-
+      
         if (namesInput === "") {
           alert("אנא הזן לפחות שם אחד!");
           return;
         }
-
-        const names = namesInput
-          .split("\n")
-          .map((name) => name.trim())
-          .filter((name) => name !== "");
+      
+        let names = namesInput.split('\n').map(name => name.trim()).filter(name => name !== "");
+      
         if (names.length === 0) {
           alert("אנא הזן לפחות שם אחד!");
           return;
         }
-
-        const shuffledNames = names.sort(() => Math.random() - 0.5);
-
-        clearTable("schedule1");
-        clearTable("schedule2");
-
+      
+        if (randomize) {
+          names = names.sort(() => Math.random() - 0.5); // Shuffle if checkbox is checked
+        }
+      
+        // Clear tables
+        clearTable('schedule1');
+        clearTable('schedule2');
+      
         let hasEveningSchedule = false;
         let hasMorningSchedule = false;
-
+      
         if (startTime1 && endTime1) {
-          generateSchedule(startTime1, endTime1, shuffledNames, "schedule1");
+          generateSchedule(startTime1, endTime1, names, 'schedule1');
           hasEveningSchedule = true;
         }
-
+      
         if (startTime2 && endTime2) {
-          generateSchedule(startTime2, endTime2, shuffledNames, "schedule2");
+          generateSchedule(startTime2, endTime2, names, 'schedule2');
           hasMorningSchedule = true;
         }
-
-        // Show only the full schedule containers
-        document
-          .getElementById("schedule1-container")
-          .classList.toggle("hidden", !hasEveningSchedule);
-        document
-          .getElementById("schedule2-container")
-          .classList.toggle("hidden", !hasMorningSchedule);
+      
+        if (hasEveningSchedule) {
+          document.getElementById('schedule1-container').classList.remove('hidden');
+        }
+        if (hasMorningSchedule) {
+          document.getElementById('schedule2-container').classList.remove('hidden');
+        }
       }
-
+       
       function clearTable(tableId) {
         const tbody = document.getElementById(tableId).querySelector("tbody");
         tbody.innerHTML = ""; // Remove all rows
