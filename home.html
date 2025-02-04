@@ -47,11 +47,23 @@
       .copy-btn:hover {
         background-color: #1e88e5;
       }
-      h1,
+      h1 {
+        font-size: 22px;
+        margin-bottom: 15px;
+        color: #ffffff;
+      }
       h2 {
+        font-size: 18px;
         margin-top: 5px;
         margin-bottom: 5px;
         color: #ffffff;
+      }
+      hr {
+        border: none;
+        height: 1px;
+        background-color: #555;
+        margin: 10px 0;
+        width: 100%;
       }
       label,
       p {
@@ -146,6 +158,7 @@
   </head>
   <body>
     <h1>מתזמן שבצק מאזין</h1>
+    <hr>
     <h2>טווח זמנים ערב</h2>
     <div class="time-container">
       <label for="startTime1">התחלה:</label>
@@ -163,7 +176,7 @@
       <label for="endTime2">סיום:</label>
       <input type="time" id="endTime2" required />
     </div>
-
+    <hr>
     <h2>שמות</h2>
     <div class="label-container">
       <label for="names">הזן שמות (כל שם בשורה נפרדת):</label>
