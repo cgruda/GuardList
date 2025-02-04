@@ -129,6 +129,19 @@
       .schedule-container {
         margin-bottom: 20px; /* Adds space below each schedule */
       }
+      input[type="time"] {
+        color: #ffffff; /* White text */
+        background-color: #333; /* Dark background */
+        border: 1px solid #555; /* Subtle border */
+        padding: 5px;
+        font-size: 16px;
+      }
+      input[type="time"]::-webkit-calendar-picker-indicator {
+        filter: invert(
+          1
+        ); /* Makes the clock icon visible on dark backgrounds */
+        cursor: pointer;
+      }
     </style>
   </head>
   <body>
