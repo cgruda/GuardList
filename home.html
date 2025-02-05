@@ -292,7 +292,7 @@
       id="names"
       rows="4"
       placeholder="הכנס שמות כאן..."
-      oninput="updateNameCount()"
+      oninput="updateNameCount(); autoResizeTextarea();"
     ></textarea>
 
     <!-- Collapsible Settings Container -->
@@ -561,6 +561,14 @@
         } else {
           button.innerText = "הסתר הגדרות"; // Text when expanded
         }
+      }
+      
+      function autoResizeTextarea() {
+        const textarea = document.getElementById("names");
+        const lineCount = textarea.value.split("\n").length;
+  
+        // Set the max number of rows to 10
+        textarea.rows = Math.min(10, Math.max(4, lineCount));
       }
     </script>
   </body>
