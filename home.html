@@ -349,6 +349,20 @@
         
       document.getElementById("randomizeNames").addEventListener("change", function() { const sameOrderCheckbox = document.getElementById("sameOrderMorning");
       sameOrderCheckbox.disabled = !this.checked;});
+      
+      document.addEventListener("DOMContentLoaded", function () { const randomizeCheckbox = document.getElementById("randomizeNames");
+      const sameOrderCheckbox = document.getElementById("sameOrderMorning");
+
+        function updateSameOrderState() {
+          sameOrderCheckbox.disabled = !randomizeCheckbox.checked;
+        }
+
+        // Run on page load
+        updateSameOrderState();
+
+        // Run on checkbox change
+        randomizeCheckbox.addEventListener("change", updateSameOrderState);
+      });
 
       function generateSchedules() {
         const startTime1 = document.getElementById('startTime1').value;
