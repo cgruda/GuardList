@@ -251,6 +251,11 @@
         left: 50%;
         transform: translate(-50%, -50%); /* Center the checkmark */
       }
+      
+      .setting input[type="checkbox"]:disabled {
+        opacity: 0.2; /* Gray out the checkbox */
+        cursor: not-allowed;
+       }
 
       .setting input[type="checkbox"]:checked::before {
         display: block; /* Show checkmark when checked */
@@ -300,7 +305,7 @@
         </div>
 
         <div class="setting">
-          <input type="checkbox" id="sameOrderMorning" checked>
+          <input type="checkbox" id="sameOrderMorning" checked disabled>
           <label for="sameOrderMorning">סדר שומרים זהה בבוקר</label>
         </div>
       </div>
@@ -341,6 +346,9 @@
       document
         .getElementById("generate")
         .addEventListener("click", generateSchedules);
+        
+      document.getElementById("randomizeNames").addEventListener("change", function() { const sameOrderCheckbox = document.getElementById("sameOrderMorning");
+      sameOrderCheckbox.disabled = !this.checked;});
 
       function generateSchedules() {
         const startTime1 = document.getElementById('startTime1').value;
