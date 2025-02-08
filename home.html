@@ -281,9 +281,34 @@
     .hidden {
         display: none;
     }
+    
+    /* Centered Container */
+.container {
+    max-width: 400px;
+    margin: 0;
+    padding: 0px;
+    background-color: #1e1e1e;
+}
+
+/* Adjust buttons to match container width */
+button, .copy-btn, .collapsible-button {
+    width: 100%;
+}
+
+/* Ensure inputs don't stretch beyond the container */
+input, textarea {
+    width: 95%;
+}
+
+/* Keep tables within container */
+table {
+    width: 100%;
+    table-layout: auto;
+}
   </style>
   </head>
   <body>
+  <div class="container">
     <h1>מתזמן שבצק מאזין</h1>
     <hr>
     <h2>טווח זמנים ערב</h2>
@@ -361,6 +386,8 @@
         </thead>
         <tbody></tbody>
       </table>
+        </div>
+</body>
     </div>
 
     <script>
