@@ -234,7 +234,7 @@ function copyAllTables() {
   let text = "";
   const eveningText = getTableText("schedule1");
   if (eveningText) {
-    text += "*מאזין ערב*\n" + eveningText + "\n\n";
+    text += "*מאזין לילה*\n" + eveningText + "\n\n";
   }
   const morningText = getTableText("schedule2");
   if (morningText) {
