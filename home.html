@@ -1,93 +1,103 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
-<head>
-    <link rel="stylesheet" href="styles.css">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <link rel="stylesheet" href="styles.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>מתזמן שבצק מאזין</title>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <h1>מתזמן שבצק מאזין</h1>
+      <h1>מתזמן שבצק מאזין</h1>
 
-        <h2>טווח זמנים ערב</h2>
-        <div class="time-container">
-            <label for="startTime1">התחלה:</label>
-            <input type="time" id="startTime1" value="22:00" required />
-            <label for="endTime1">סיום:</label>
-            <input type="time" id="endTime1" value="05:00" required />
+      <h2>טווח זמנים ערב</h2>
+      <div class="time-container">
+        <label for="startTime1">התחלה:</label>
+        <input type="time" id="startTime1" value="22:00" required />
+        <label for="endTime1">סיום:</label>
+        <input type="time" id="endTime1" value="05:00" required />
+      </div>
+
+      <h2>טווח זמנים בוקר</h2>
+      <div class="time-container">
+        <label for="startTime2">התחלה:</label>
+        <input type="time" id="startTime2" value="07:00" required />
+        <label for="endTime2">סיום:</label>
+        <input type="time" id="endTime2" required />
+      </div>
+
+      <hr />
+
+      <h2>שמות</h2>
+      <div class="label-container">
+        <label for="names">הזן כל שם בשורה נפרדת:</label>
+        <p id="nameCount">מס' שמות: 0</p>
+      </div>
+      <textarea
+        id="names"
+        rows="4"
+        placeholder="הכנס שמות כאן..."
+        oninput="updateNameCount(); autoResizeTextarea();"
+      ></textarea>
+
+      <div class="collapsible-container">
+        <button class="collapsible-button" onclick="toggleSettings()">
+          הגדרות נוספות
+        </button>
+        <div class="settings-container hidden">
+          <div class="setting">
+            <label for="guardsPerShift">מספר שומרים למשמרת:</label>
+            <input
+              type="number"
+              id="guardsPerShift"
+              value="1"
+              min="1"
+              style="width: 60px; text-align: center"
+            />
+          </div>
+          <div class="setting">
+            <input type="checkbox" id="randomizeNames" checked />
+            <label for="randomizeNames">שבץ רנדומלית</label>
+          </div>
+          <div class="setting">
+            <input type="checkbox" id="sameOrderMorning" checked disabled />
+            <label for="sameOrderMorning">סדר שומרים זהה בבוקר</label>
+          </div>
         </div>
+      </div>
 
-        <h2>טווח זמנים בוקר</h2>
-        <div class="time-container">
-            <label for="startTime2">התחלה:</label>
-            <input type="time" id="startTime2" value="07:00" required />
-            <label for="endTime2">סיום:</label>
-            <input type="time" id="endTime2" required />
-        </div>
+      <button id="generate">צור שבצק מאזין</button>
+      <button class="copy-btn" onclick="copyAllTables()">
+        העתק שבצק כטקסט
+      </button>
 
-        <hr>
+      <div id="schedule1-container" class="hidden schedule-container">
+        <label><strong>מאזין ערב</strong></label>
+        <table id="schedule1">
+          <thead>
+            <tr>
+              <th>שעה</th>
+              <th>שם</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
 
-        <h2>שמות</h2>
-        <div class="label-container">
-            <label for="names">הזן כל שם בשורה נפרדת:</label>
-            <p id="nameCount">מס' שמות: 0</p>
-        </div>
-        <textarea
-            id="names"
-            rows="4"
-            placeholder="הכנס שמות כאן..."
-            oninput="updateNameCount(); autoResizeTextarea();"
-        ></textarea>
-
-        <div class="collapsible-container">
-            <button class="collapsible-button" onclick="toggleSettings()">הגדרות נוספות</button>
-            <div class="settings-container hidden">
-                <div class="setting">
-                    <label for="guardsPerShift">מספר שומרים למשמרת:</label>
-                    <input type="number" id="guardsPerShift" value="1" min="1" style="width: 60px; text-align: center;">
-                </div>
-                <div class="setting">
-                    <input type="checkbox" id="randomizeNames" checked>
-                    <label for="randomizeNames">שבץ רנדומלית</label>
-                </div>
-                <div class="setting">
-                    <input type="checkbox" id="sameOrderMorning" checked disabled>
-                    <label for="sameOrderMorning">סדר שומרים זהה בבוקר</label>
-                </div>
-            </div>
-        </div>
-
-        <button id="generate">צור שבצק מאזין</button>
-        <button class="copy-btn" onclick="copyAllTables()">העתק שבצק כטקסט</button>
-
-        <div id="schedule1-container" class="hidden schedule-container">
-            <label><strong>מאזין ערב</strong></label>
-            <table id="schedule1">
-                <thead>
-                    <tr>
-                        <th>שעה</th>
-                        <th>שם</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </div>
-
-        <div id="schedule2-container" class="hidden schedule-container">
-            <label><strong>מאזין בוקר</strong></label>
-            <table id="schedule2">
-                <thead>
-                    <tr>
-                        <th>שעה</th>
-                        <th>שם</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </div>
+      <div id="schedule2-container" class="hidden schedule-container">
+        <label><strong>מאזין בוקר</strong></label>
+        <table id="schedule2">
+          <thead>
+            <tr>
+              <th>שעה</th>
+              <th>שם</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
     </div>
 
     <script src="script.js"></script>
-</body>
+  </body>
 </html>
