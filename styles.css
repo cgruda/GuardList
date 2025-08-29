@@ -1,0 +1,311 @@
+/* General Styles */
+body {
+    font-family: Calibri, sans-serif;
+    margin: 20px;
+    direction: rtl;
+    text-align: right;
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+}
+
+/* Buttons */
+button, .copy-btn, .collapsible-button {
+    font-family: Calibri, sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    display: block;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+button {
+    background-color: #2e7d32;
+    color: white;
+}
+
+button:hover {
+    background-color: #388e3c;
+}
+
+.copy-btn {
+    background-color: #1565c0;
+    color: white;
+}
+
+.copy-btn:hover {
+    background-color: #1e88e5;
+}
+
+.collapsible-button {
+    background-color: dimgray;
+    color: white;
+}
+
+.collapsible-button:hover {
+    background-color: gray;
+}
+
+/* Headings */
+h1 {
+    font-size: 22px;
+    margin-bottom: 15px;
+    color: #ffffff;
+}
+
+h2 {
+    font-size: 18px;
+    margin: 5px 0;
+    color: #ffffff;
+}
+
+/* Horizontal Rule */
+hr {
+    border: none;
+    height: 1px;
+    background-color: #555;
+    margin: 10px 0;
+    width: 100%;
+}
+
+/* Labels & Paragraphs */
+label, p {
+    margin-bottom: 5px;
+    color: #cccccc;
+}
+
+label {
+    display: block;
+    font-size: 18px;
+}
+
+/* Inputs */
+input, textarea {
+    display: block;
+    width: 95%;
+    padding: 10px;
+    text-align: right;
+    background-color: #333;
+    color: #e0e0e0;
+    border: 1px solid #555;
+    border-radius: 5px;
+    font-family: Calibri, sans-serif;
+    margin: 10px 0;
+}
+
+textarea {
+    margin-bottom: 10px;
+}
+
+/* Time Input */
+input[type="time"] {
+    color: #ffffff;
+    background-color: #333;
+    border: 1px solid #555;
+    padding: 5px;
+    font-size: 16px;
+    width: 100px;
+}
+
+input[type="time"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    cursor: pointer;
+}
+
+/* Number Input (for guardsPerShift) */
+input[type="number"] {
+    -moz-appearance: textfield; /* Firefox */
+}
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    background-color: #2b2b2b;
+    color: #e0e0e0;
+    table-layout: fixed;
+}
+
+th, td {
+    border: 1px solid #444;
+    padding: 8px;
+    text-align: right;
+}
+
+th {
+    background-color: #3a3a3a;
+    color: #ffffff;
+}
+
+/* Table Column Width */
+table td:nth-child(1) {
+    width: 100px;
+    white-space: nowrap;
+}
+
+table td:nth-child(2) {
+    width: auto;
+}
+
+/* Table Cells */
+table td {
+    padding: 8px;
+    vertical-align: middle;
+    height: 25px;
+    overflow: hidden;
+    align-items: center;
+}
+
+/* Table Inputs */
+table td input {
+    width: 100%;
+    height: 100%;
+    border: none;
+    box-sizing: border-box;
+    background-color: transparent;
+    font-size: 16px;
+    display: block;
+    padding: 0;
+    margin: 0;
+    text-align: right;
+}
+
+table td input:focus {
+    outline: none;
+}
+
+/* Containers */
+.time-container, .copy-container, .setting {
+    display: flex;
+    align-items: center;
+}
+
+.time-container {
+    gap: 20px;
+}
+
+.time-container label {
+    flex: none;
+    margin-left: 2px;
+}
+
+.time-container input {
+    flex: none;
+    width: 90px;
+}
+
+.copy-container {
+    gap: 10px;
+}
+
+.setting {
+    gap: 8px;
+    direction: rtl;
+}
+
+.settings-container {
+    margin-top: 0px;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #2b2b2b;
+    border-radius: 5px;
+}
+
+.label-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.label-container p {
+    margin: 0;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.schedule-container {
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.collapsible-container {
+    margin-top: 20px;
+}
+
+/* Checkboxes */
+.setting input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    background-color: #2b2b2b;
+    border: 1px solid #555;
+    border-radius: 3px;
+    appearance: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.setting input[type="checkbox"]:checked {
+    background-color: darkcyan;
+}
+
+.setting input[type="checkbox"]::before {
+    content: "✔";
+    font-size: 14px;
+    color: white;
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.setting input[type="checkbox"]:checked::before {
+    display: block;
+}
+
+.setting input[type="checkbox"]:disabled {
+    opacity: 0.2;
+    cursor: not-allowed;
+}
+
+/* Utility Classes */
+.hidden {
+    display: none;
+}
+
+/* Centered Container */
+.container {
+    max-width: 400px;
+    margin: 0;
+    padding: 0px;
+    background-color: #1e1e1e;
+}
+
+/* Adjust buttons to match container width */
+button, .copy-btn, .collapsible-button {
+    width: 100%;
+}
+
+/* Ensure inputs don't stretch beyond the container */
+input, textarea {
+    width: 95%;
+}
+
+/* Keep tables within container */
+table {
+    width: 100%;
+    table-layout: auto;
+}
