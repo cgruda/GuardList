@@ -40,6 +40,10 @@ function generateSchedules() {
     document.getElementById("guardsPerShift").value,
     10
   );
+  const shiftMaxDuration = parseInt(
+    document.getElementById("shiftMaxDuration").value,
+    10
+  );
 
   if (!((startTime1 && endTime1) || (startTime2 && endTime2))) {
     alert("אנא הזן לפחות טווח זמן אחד!");
@@ -89,7 +93,8 @@ function generateSchedules() {
       endTime1,
       eveningNames,
       "schedule1",
-      guardsPerShift
+      guardsPerShift,
+      shiftMaxDuration
     );
     hasEveningSchedule = true;
   }
@@ -116,7 +121,8 @@ function generateSchedules() {
       endTime2,
       morningNames,
       "schedule2",
-      guardsPerShift
+      guardsPerShift,
+      shiftMaxDuration
     );
     hasMorningSchedule = true;
   }
@@ -135,7 +141,14 @@ function clearTable(tableId) {
   tbody.innerHTML = ""; // Remove all rows
 }
 
-function generateSchedule(startTime, endTime, names, tableId, guardsPerShift) {
+function generateSchedule(
+  startTime,
+  endTime,
+  names,
+  tableId,
+  guardsPerShift,
+  shiftMaxDuration
+) {
   const start = new Date(`1970-01-01T${startTime}:00`);
   let end = new Date(`1970-01-01T${endTime}:00`);
   if (end <= start) {
@@ -143,14 +156,18 @@ function generateSchedule(startTime, endTime, names, tableId, guardsPerShift) {
   }
 
   const totalMinutes = (end - start) / (1000 * 60);
-  const availableSlots = Math.floor(names.length / guardsPerShift); // Number of distinct time slots we can fill
+  const availableSlots = Math.floor(names.length / guardsPerShift);
 
   if (availableSlots === 0) {
     alert("אין מספיק שמות כדי למלא את המשמרות עם מספר השומרים הנבחר.");
     return;
   }
 
-  const slotDuration = totalMinutes / availableSlots;
+  let slotDuration = totalMinutes / availableSlots;
+
+  if (shiftMaxDuration > 0 && shiftMaxDuration < slotDuration) {
+    slotDuration = shiftMaxDuration;
+  }
 
   if (slotDuration <= 0) {
     alert("שעת הסיום חייבת להיות אחרי שעת ההתחלה!");
@@ -163,21 +180,18 @@ function generateSchedule(startTime, endTime, names, tableId, guardsPerShift) {
   let currentTime = start;
   let nameIndex = 0;
 
-  for (let i = 0; i < availableSlots; i++) {
+  // The corrected while loop condition
+  while (currentTime.getTime() < end.getTime()) {
     const nextTime = new Date(currentTime.getTime() + slotDuration * 60 * 1000);
-    const timeSlot = `${formatTime(nextTime)} - ${formatTime(currentTime)}`;
+    const actualNextTime = nextTime.getTime() > end.getTime() ? end : nextTime;
+    const timeSlot = `${formatTime(currentTime)} - ${formatTime(
+      actualNextTime
+    )}`;
 
     const assignedGuards = [];
     for (let j = 0; j < guardsPerShift; j++) {
-      if (nameIndex < names.length) {
-        assignedGuards.push(names[nameIndex % names.length]); // Use modulo for cycling through names
-        nameIndex++;
-      } else {
-        // This case should ideally not be hit if availableSlots is calculated correctly,
-        // but as a fallback, we can cycle names or stop. Cycling is chosen for fairness.
-        assignedGuards.push(names[nameIndex % names.length]);
-        nameIndex++;
-      }
+      assignedGuards.push(names[nameIndex % names.length]);
+      nameIndex++;
     }
 
     const row = document.createElement("tr");
@@ -185,7 +199,8 @@ function generateSchedule(startTime, endTime, names, tableId, guardsPerShift) {
       ", "
     )}</td>`;
     tbody.appendChild(row);
-    currentTime = nextTime;
+
+    currentTime = actualNextTime;
   }
   makeTableEditable(tableId);
 }
