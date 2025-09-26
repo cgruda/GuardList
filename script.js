@@ -127,7 +127,9 @@ function generateSchedules() {
     hasMorningSchedule = true;
   }
 
-  // Show the schedules after generating
+  if (hasEveningSchedule || hasMorningSchedule) {
+    document.getElementById("copybtn").classList.remove("hidden");
+  }
   if (hasEveningSchedule) {
     document.getElementById("schedule1-container").classList.remove("hidden");
   }
