@@ -81,10 +81,11 @@ function generateSchedules() {
 
   let hasEveningSchedule = false;
   let hasMorningSchedule = false;
+  let eveningNames = [...names];
 
   // Generate Evening Schedule
   if (startTime1 && endTime1) {
-    let eveningNames = [...names]; // Use a copy
+    eveningNames = [...names]; // Use a copy
     if (randomize) {
       shuffleArray(eveningNames);
     }
@@ -102,18 +103,14 @@ function generateSchedules() {
   // Generate Morning Schedule
   if (startTime2 && endTime2) {
     let morningNames;
-    if (!sameOrderMorning && randomize) {
-      morningNames = [...names]; // Use a fresh copy for morning if not same order
-      shuffleArray(morningNames);
-    } else {
-      // If not randomizing or if sameOrderMorning is checked, use the initial names or the shuffled evening names if randomize was on for evening
+    if (!randomize) {
       morningNames = names;
-      if (randomize && sameOrderMorning && hasEveningSchedule) {
-        // If random and same order, ensure the evening's final order is used
-        // This would require storing the 'eveningNames' in a way that's accessible,
-        // or just re-shuffling the original names if 'randomize' is true
-        morningNames = [...names]; // Start with original names
-        shuffleArray(morningNames); // Reshuffle for consistency
+    } else {
+      if (hasEveningSchedule && sameOrderMorning) {
+        morningNames = [...eveningNames];
+      } else {
+        morningNames = names;
+        shuffleArray(morningNames);
       }
     }
     generateSchedule(
