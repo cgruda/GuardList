@@ -182,7 +182,7 @@ function generateSchedule(
   // The corrected while loop condition
   while (currentTime.getTime() < end.getTime()) {
     const nextTime = new Date(currentTime.getTime() + slotDuration * 60 * 1000);
-    const actualNextTime = nextTime.getTime() > end.getTime() ? end : nextTime;
+    const actualNextTime = nextTime.getTime() >= (end.getTime() - 60000) ? end : nextTime;
     const timeSlot = `${formatTime(currentTime)} - ${formatTime(
       actualNextTime
     )}`;
